@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="todo_task_report" model="ir.actions.report">
+        <field name="name">Task Report</field>
+        <field name="model">todo.task</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="binding_model_id" ref="model_todo_task" />
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Task Report - %s' % (object.name)</field>
+        <field name="report_name">todo.task_report_document</field>
+    </record>
+
+    <template id="task_report_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <!-- Task Information -->
+                        <div style="margin: 20px 0;">
+                            <h2 class="text-center" style="color: #003366; margin-bottom: 30px;">Task
+                                Information</h2>
+
+                            <table width="100%"
+                                style="border-collapse: collapse; margin-bottom: 30px;">
+                                <tr style="border: 1px solid #ddd;">
+                                    <td
+                                        style="padding: 12px; width: 20%; background-color: #f5f5f5;">
+                                        <strong>Task Name:</strong>
+                                    </td>
+                                    <td style="padding: 12px;" colspan="3">
+                                        <span t-field="doc.name" />
+                                    </td>
+                                </tr>
+                                <tr style="border: 1px solid #ddd;">
+                                    <td style="padding: 12px; background-color: #f5f5f5;">
+                                        <strong>Due Date:</strong>
+                                    </td>
+                                    <td style="padding: 12px; width: 30%;">
+                                        <span t-field="doc.due_date" />
+                                    </td>
+                                    <td
+                                        style="padding: 12px; width: 20%; background-color: #f5f5f5;">
+                                        <strong>Assigned To:</strong>
+                                    </td>
+                                    <td style="padding: 12px; width: 30%;">
+                                        <span t-field="doc.assigned_to" />
+                                    </td>
+                                </tr>
+                                <tr style="border: 1px solid #ddd;">
+                                    <td style="padding: 12px; background-color: #f5f5f5;">
+                                        <strong>Estimated Time:</strong>
+                                    </td>
+                                    <td style="padding: 12px;" colspan="3">
+                                        <span t-field="doc.estimated_time" /> hours </td>
+                                </tr>
+                                <tr style="border: 1px solid #ddd;">
+                                    <td style="padding: 12px; background-color: #f5f5f5;">
+                                        <strong>Description:</strong>
+                                    </td>
+                                    <td style="padding: 12px;" colspan="3">
+                                        <span t-field="doc.description" />
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Timesheet Table -->
+                            <h2 class="text-center" style="color: #003366; margin: 30px 0;">
+                                Timesheet</h2>
+                            <table width="100%" style="border-collapse: collapse;">
+                                <thead>
+                                    <tr style="background-color: #343a40; color: white;">
+                                        <th
+                                            style="padding: 12px; border: 1px solid #ddd; text-align: center; width: 5%;">
+                                            #</th>
+                                        <th
+                                            style="padding: 12px; border: 1px solid #ddd; width: 20%;">
+                                            Date</th>
+                                        <th style="padding: 12px; border: 1px solid #ddd;">
+                                            Description</th>
+                                        <th
+                                            style="padding: 12px; border: 1px solid #ddd; text-align: right; width: 15%;">
+                                            Time (Hours)
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="doc.timesheet_ids" t-as="line">
+                                        <tr t-att-class="line_index % 2 == 0 and 'bg-light' or ''">
+                                            <td
+                                                style="padding: 10px; border: 1px solid #ddd; text-align: center;">
+                                                <span t-esc="line_index + 1" />
+                                            </td>
+                                            <td style="padding: 10px; border: 1px solid #ddd;">
+                                                <span t-field="line.date" />
+                                            </td>
+                                            <td style="padding: 10px; border: 1px solid #ddd;">
+                                                <span t-field="line.description" />
+                                            </td>
+                                            <td
+                                                style="padding: 10px; border: 1px solid #ddd; text-align: right;">
+                                                <span t-field="line.time" />
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                                <tfoot>
+                                    <tr style="background-color: #f5f5f5; font-weight: bold;">
+                                        <td colspan="3"
+                                            style="padding: 12px; border: 1px solid #ddd; text-align: right;">
+                                            Total Time:
+                                        </td>
+                                        <td
+                                            style="padding: 12px; border: 1px solid #ddd; text-align: right;">
+                                            <span t-esc="sum(doc.timesheet_ids.mapped('time'))"
+                                                t-options='{"widget": "float", "precision": 2}' />
+                                            hours </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
+
+

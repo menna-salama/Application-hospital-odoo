@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_partner_form_inherit_hms" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.hms</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='sales_purchases']//group[@name='misc']//field[@name='ref']"
+                position="after">
+                <field name="related_patient_id" />
+            </xpath>
+        </field>
+    </record>
+    <record id="view_partner_tree" model="ir.ui.view">
+        <field name="name">res.partner.tree</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree" />
+        <field name="arch" type="xml">
+            <field name="display_name" position="after">
+                <field name="website" />
+            </field>
+        </field>
+    </record>
+    <!-- Action -->
+    <record id="action_res_partner_hms" model="ir.actions.act_window">
+        <field name="name">Customers</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('related_patient_id', '!=', False)]</field>
+    </record>
+    <!-- Menu Item -->
+    <menuitem
+        id="menu_patients_customers"
+        name="Patients Customers"
+        parent="hms.menu_root"
+        action="action_res_partner_hms" />
+</odoo>

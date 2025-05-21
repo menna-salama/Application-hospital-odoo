@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hms_patient_report" model="ir.actions.report">
+        <field name="name">Patient Report</field>
+        <field name="model">hms.patient</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="binding_model_id" ref="model_hms_patient" />
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Patient Report - %s' % (object.first_name)</field>
+        <field name="report_name">hms.patient_report_template</field>
+    </record>
+    <template id="patient_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page" style="font-size: 20px;">
+                        <!-- Header with Title and Image -->
+                        <div class="row mb-4"
+                            style="display: flex; align-items: center; justify-content: space-between;">
+                            <div style="flex: 1; text-align: left;">
+                                <h2 style="color: red; font-size: 26px; font-family: 'teko';">Patient Status Report</h2>
+                            </div>
+                            <div style="text-align: right;">
+                                <img t-if="o.image"
+                                    t-att-src="image_data_uri(o.image)"
+                                    style="max-height: 130px; margin-left: auto;" />
+                            </div>
+                        </div>
+
+                        <!-- Patient Information in Two Columns -->
+                        <div class="row"
+                            style="display: flex; justify-content: space-between; margin-bottom: 30px;">
+                            <!-- Left Column -->
+                            <div class="col-6" style="flex: 1; padding: 10px;">
+                                <div style="font-size: 22px;">
+                                    <p>
+                                        <strong>Name:</strong>
+                                        <span t-field="o.first_name" />
+                                        <span t-field="o.last_name" />
+                                    </p>
+                                    <p>
+                                        <strong>Age:</strong>
+                                        <span t-field="o.age" />
+                                    </p>
+                                    <p>
+                                        <strong>Department:</strong>
+                                        <span t-field="o.department_id.name" />
+                                    </p>
+                                    <p>
+                                        <strong>Doctors:</strong>
+                                        <t t-foreach="o.doctor_ids" t-as="doctor">
+                                            <span t-field="doctor.name" />
+                                            <t t-if="not doctor_last">, </t>
+                                        </t>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Right Column -->
+                            <div class="col-6" style="flex: 1; padding: 10px;">
+                                <div style="font-size: 22px;">
+                                    <p>
+                                        <strong>Birth Date:</strong>
+                                        <span t-field="o.birth_date" />
+                                    </p>
+                                    <p>
+                                        <strong>PCR:</strong>
+                                        <span t-field="o.pcr" />
+                                    </p>
+                                    <p>
+                                        <strong>Blood Type:</strong>
+                                        <span t-field="o.blood_type" />
+                                    </p>
+                                    <p>
+                                        <strong>Email:</strong>
+                                        <span t-field="o.email" />
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Log History Title -->
+                        <h3
+                            style="text-align: center; color: red; font-size: 24px; margin-bottom: 10px;">Log
+                            History</h3>
+
+                        <!-- Log History Table (Centered) -->
+                        <div style="display: flex; justify-content: center;">
+                            <table class="table table-bordered"
+                                style="background-color: #e0f2ff; border: 1px solid #ccc; width: 100%; font-size: 20px; text-align: center;">
+                                <thead style="background-color: #b3daff;">
+                                    <tr>
+                                        <th>User</th>
+                                        <th>Date</th>
+                                        <th>Info</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="o.log_history_ids" t-as="log">
+                                        <tr>
+                                            <td>
+                                                <span t-field="log.create_uid.name" />
+                                            </td>
+                                            <td>
+                                                <span t-field="log.date" />
+                                            </td>
+                                            <td>
+                                                <span t-field="log.description" />
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

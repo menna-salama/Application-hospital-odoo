@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_todo_task+manager,access_todo_task_manager,model_todo_task,group_todo_manager,1,1,1,1
+access_todo_task_user,access_todo_task_user,model_todo_task,group_todo_user,1,1,1,0
+access_todo_timesheet,access_todo_timesheet,model_todo_timesheet,,1,1,1,1

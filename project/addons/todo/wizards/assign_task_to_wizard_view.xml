@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_assign_task_to_user__wizard_form" model="ir.ui.view">
+            <field name="name">todo.assign.task.wizard.form</field>
+            <field name="model">todo.assign.task.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Assign Task To User">
+                    <group>
+                        <field name="user_ids" />
+                        <field name="task_ids" />
+                    </group>
+                    <footer>
+                        <button string="Assign" type="object"
+                            name="action_assign_tasks"
+                            class="btn-primary" />
+                        <button string="Cancel" class="btn-secondary"
+                            special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_assign_task_wizard_tree" model="ir.actions.server">
+            <field name="name">Assign Task To User</field>
+            <field name="model_id" ref="model_todo_task" />
+            <field name="binding_model_id" ref="model_todo_task" />
+            <field name="state">code</field>
+            <field name="code">
+                if records:
+                action = {
+                'type': 'ir.actions.act_window',
+                'res_model': 'todo.assign.task.wizard',
+                'view_mode': 'form',
+                'target': 'new',
+                'context': {
+                'default_task_ids': records.ids
+                }
+                }
+            </field>
+        </record>
+    </data>
+</odoo>

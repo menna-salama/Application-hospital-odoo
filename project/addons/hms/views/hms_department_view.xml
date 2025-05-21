@@ -1,0 +1,47 @@
+<odoo>
+    <data>
+        <!-- Form View -->
+        <record id="department_form" model="ir.ui.view">
+            <field name="name">hms.department.form</field>
+            <field name="model">hms.department</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <header>
+                            <field name="state" widget="statusbar" options="{'clickable':True}" />
+                        </header>
+                        <group>
+                            <field name="name" />
+                            <field name="capacity" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- Tree View-->
+        <record id="department_tree" model="ir.ui.view">
+            <field name="name">hms.department.tree</field>
+            <field name="model">hms.department</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="capacity" />
+                </tree>
+            </field>
+        </record>
+        <!-- Action -->
+        <record id="department_action" model="ir.actions.act_window">
+            <field name="name">Departments</field>
+            <field name="res_model">hms.department</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+
+        <menuitem
+            id="department_menu"
+            name="Departments"
+            parent="hms.menu_root"
+            action="department_action"
+        />
+    </data>
+</odoo>

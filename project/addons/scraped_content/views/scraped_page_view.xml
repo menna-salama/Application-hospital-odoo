@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="scraped_page_form_view" model="ir.ui.view">
+            <field name="name">scraped.page.form</field>
+            <field name="model">scraped.page</field>
+            <field name="arch" type="xml">
+                <form string="Scraped Page">
+                    <sheet>
+                        <header>
+                            <field name="status" widget="statusbar" options="{'clickable':True}" />
+                        </header>
+                        <group>
+                            <field name="title" />
+                            <field name="source_url" />
+                            <field name="content" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="scraped_page_tree_view" model="ir.ui.view">
+            <field name="name">scraped.page.tree</field>
+            <field name="model">scraped.page</field>
+            <field name="arch" type="xml">
+                <tree string="Scraped Page">
+                    <field name="title" />
+                    <field name="source_url" />
+                    <field name="content" />
+                </tree>
+            </field>
+        </record>
+        <record id="scraped_page_action" model="ir.actions.act_window">
+            <field name="name">Scraped Page</field>
+            <field name="res_model">scraped.page</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="scraped_page_menu" name="Scraped Page" action="scraped_page_action"
+            parent="scraped_content.menu_root" />
+    </data>
+</odoo>

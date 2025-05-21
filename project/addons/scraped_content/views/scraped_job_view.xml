@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="scraped_job_form_view" model="ir.ui.view">
+            <field name="name">scraped.job.form</field>
+            <field name="model">scraped.job</field>
+            <field name="arch" type="xml">
+                <form string="Scraped Job">
+                    <sheet>
+                        <header>
+                            <field name="status" widget="statusbar" options="{'clickable':True}" />
+                        </header>
+                        <group>
+                            <field name="name"/>
+                            <field name="company_name"/>
+                            <field name="company_logo_url"/>
+                        </group>
+                        <group>
+                            <field name="location" />
+                            <field name="source_url" />
+                            <field name="date_posted" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+         <record id="scraped_job_tree_view" model="ir.ui.view">
+                <field name="name">scraped.job.tree</field>
+                <field name="model">scraped.job</field>
+                <field name="arch" type="xml">
+                    <tree string="Scraped Job">
+                        <field name="name"/>
+                        <field name="company_name"/>
+                        <field name="location"/>
+                        <field name="date_posted"/>
+                    </tree>
+                </field>
+            </record>
+            <record id="scraped_job_action" model="ir.actions.act_window">
+                <field name="name">Scraped Job</field>
+                <field name="res_model">scraped.job</field>
+                <field name="view_mode">tree,form</field>
+            </record>
+            <menuitem id="scraped_job_menu" name="Scraped Job" action="scraped_job_action"
+            parent="scraped_content.menu_root" />
+    </data>
+</odoo>

@@ -1,0 +1,120 @@
+<odoo>
+    <data>
+        <record id="todo_task_search" model="ir.ui.view">
+            <field name="name">Todo Task Search</field>
+            <field name="model">todo.task</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name" string="Name" />
+                    <field name="assigned_to" string="Assigned To" />
+                    <filter string="Status Is Draft" name="state_draft"
+                        domain="[('state', '=', 'draft')]" />
+                    <filter string="Status Is In Progress" name="state_in_progress"
+                        domain="[('state', '=', 'in_progress')]" />
+                    <filter string="Status Is Done" name="state_done"
+                        domain="[('state', '=', 'done')]" />
+                    <separator />
+                    <filter string="Assign To" name="group_by_assigned_to"
+                        context="{'group_by': 'assigned_to'}" />
+                    <filter string="Status" name="group_by_state"
+                        context="{'group_by': 'state'}" />
+                    <filter string="Due Date" name="group_by_due_date"
+                        context="{'group_by': 'due_date'}" />
+                </search>
+            </field>
+        </record>
+        <record id="todo_task_form_view" model="ir.ui.view">
+            <field name="name">Todo Task form View</field>
+            <field name="model">todo.task</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <header>
+                            <field name="state" widget="statusbar" options="{'clickable':True}" readonly="state in ('done', 'close')" />
+                        </header>
+                        <div class="oe_title">
+                            <h1>
+                                <group>
+                                    <field name="name" placeholder="Name"
+                                        readonly="state in ('done', 'close')" />
+                                    <field name="ref" />
+                                </group>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="description" readonly="state in ('done', 'close')" />
+                                <field name="assigned_to" readonly="state in ('done', 'close')" />
+                                <field name="due_date" readonly="state in ('done', 'close')" />
+                            </group>
+                            <group>
+                                <field name="estimated_time" readonly="state in ('done', 'close')" />
+                                <field name="active" />
+                                <field name="is_late" invisible="1" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Timesheet">
+                                <field name="timesheet_ids" readonly="state in ('done', 'close')">
+                                    <tree editable="bottom">
+                                        <field name="date" />
+                                        <field name="description" />
+                                        <field name="time" />
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" />
+                        <field name="activity_ids" widget="activity" />
+                        <field name="message_ids" widget="mail_notes" />
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="todo_task_tree_view" model="ir.ui.view">
+            <field name="name">Todo Task Tree View</field>
+            <field name="model">todo.task</field>
+            <field name="arch" type="xml">
+                <tree decoration-danger="(is_late)">
+                    <field name="name" />
+                    <field name="assigned_to" />
+                    <field name="state" />
+                    <field name="is_late" />
+                </tree>
+            </field>
+        </record>
+        <record id="todo_task_action" model="ir.actions.act_window">
+            <field name="name"> Todo Action</field>
+            <field name="res_model">todo.task</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record id="todo_task_closed_action" model="ir.actions.server">
+            <field name="name">Todo Task Closed Server Action</field>
+            <field name="model_id" ref="model_todo_task" />
+            <field name="binding_model_id" ref="model_todo_task" />
+            <field name="state">code</field>
+            <field name="code">
+                action = records.action_closed()
+            </field>
+
+        </record>
+        <record id="check_is_late_task_cron" model="ir.cron">
+            <field name="name">task: is late</field>
+            <field name="model_id" ref="model_todo_task" />
+            <field name="state">code</field>
+            <field name="code">model.check_is_late()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="active">True</field>
+        </record>
+        <menuitem
+            id="menu_todo_task"
+            name="Todo Task"
+            parent="todo.menu_root"
+            action="todo_task_action"
+        />
+    </data>
+</odoo>

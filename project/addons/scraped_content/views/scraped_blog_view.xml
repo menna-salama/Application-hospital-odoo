@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="scraped_blog_form_view" model="ir.ui.view">
+            <field name="name">scraped.blog.form</field>
+            <field name="model">scraped.blog</field>
+            <field name="arch" type="xml">
+                <form string="Scraped Blog">
+                    <sheet>
+                        <header>
+                            <field name="status" widget="statusbar" options="{'clickable':True}" />
+                        </header>
+                        <group>
+                            <field name="title" />
+                            <field name="summary" />
+                            <field name="content" />
+                        </group>
+                        <group>
+                            <field name="published_date" />
+                            <field name="source_url" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="scraped_blog_tree_view" model="ir.ui.view">
+            <field name="name">scraped.blog.tree</field>
+            <field name="model">scraped.blog</field>
+            <field name="arch" type="xml">
+                <tree string="Scraped Blog">
+                    <field name="title" />
+                    <field name="summary" />
+                    <field name="published_date" />
+                </tree>
+            </field>
+        </record>
+        <record id="scraped_blog_action" model="ir.actions.act_window">
+            <field name="name">Scraped Blog</field>
+            <field name="res_model">scraped.blog</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="scraped_blog_menu" name="Scraped Blog" action="scraped_blog_action"
+            parent="scraped_content.menu_root" />
+    </data>
+</odoo>

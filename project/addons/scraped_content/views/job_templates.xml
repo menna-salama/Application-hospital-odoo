@@ -1,0 +1,59 @@
+<odoo>
+    <template id="job_list_template" name="Job List">
+        <t t-call="website.layout">
+            <div class="container">
+                <h1>Job Listings</h1>
+                <div class="row">
+                    <t t-foreach="jobs" t-as="job">
+                        <div class="col-12 mb-4">
+                            <div class="card p-3">
+                                <h4>
+                                    <a t-att-href="job.website_url">
+                                        <t t-esc="job.name" />
+                                    </a>
+                                </h4>
+                                <p>
+                                    <strong>Company:</strong>
+                                    <t t-esc="job.company_name" />
+                                </p>
+                                <p>
+                                    <strong>Location:</strong>
+                                    <t t-esc="job.location" />
+                                </p>
+                                <a class="btn btn-primary" t-att-href="job.website_url">View Details</a>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="job_detail_template" name="Job Detail">
+        <t t-call="website.layout">
+            <div class="container">
+                <h1>
+                    <t t-esc="job.name" />
+                </h1>
+                <p>
+                    <strong>Company:</strong>
+                    <t t-esc="job.company_name" />
+                </p>
+                <p>
+                    <strong>Location:</strong>
+                    <t t-esc="job.location" />
+                </p>
+                <p>
+                    <strong>Posted On:</strong>
+                    <t t-esc="job.date_posted" />
+                </p>
+                <p>
+                    <strong>Status:</strong>
+                    <t t-esc="job.status" />
+                </p>
+                <a class="btn btn-secondary mt-3" t-att-href="job.source_url" target="_blank">View
+                    Original</a>
+            </div>
+        </t>
+    </template>
+</odoo>

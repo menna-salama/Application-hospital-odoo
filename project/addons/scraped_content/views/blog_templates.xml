@@ -1,0 +1,38 @@
+<odoo>
+    <template id="blog_list_template" name="Blog List">
+        <t t-call="website.layout">
+            <div class="container">
+                <h1>Blog Articles</h1>
+                <ul>
+                    <t t-foreach="blogs" t-as="blog">
+                        <li>
+                            <a t-att-href="blog.website_url">
+                                <t t-esc="blog.title" />
+                            </a>
+                            <p>
+                                <t t-esc="blog.published_date" />
+                            </p>
+                        </li>
+                    </t>
+                </ul>
+            </div>
+        </t>
+    </template>
+
+    <template id="blog_detail_template" name="Blog Detail">
+        <t t-call="website.layout">
+            <div class="container">
+                <h1>
+                    <t t-esc="blog.title" />
+                </h1>
+                <p>
+                    <t t-esc="blog.published_date" />
+                </p>
+                <div t-raw="blog.content" />
+                <p>
+                    <a t-att-href="blog.source_url" target="_blank">Original Source</a>
+                </p>
+            </div>
+        </t>
+    </template>
+</odoo>

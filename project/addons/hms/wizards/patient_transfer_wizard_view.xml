@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- patient_transfer_wizard_view.xml -->
+        <record id="view_patient_transfer_wizard_form" model="ir.ui.view">
+            <field name="name">hms.patient.transfer.wizard.form</field>
+            <field name="model">hms.patient.transfer.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Transfer Patients">
+                    <group>
+                        <field name="new_department_id" />
+                        <field name="patient_ids" />
+                    </group>
+                    <footer>
+                        <button string="Transfer" type="object" name="action_transfer"
+                            class="btn-primary" />
+                        <button string="Cancel" class="btn-secondary" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="action_patient_transfer_wizard" model="ir.actions.act_window">
+            <field name="name">Transfer Patients</field>
+            <field name="res_model">hms.patient.transfer.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        <record id="action_patient_transfer_wizard_from_tree" model="ir.actions.server">
+            <field name="name">Transfer Selected Patients</field>
+            <field name="model_id" ref="model_hms_patient" />
+            <field name="binding_model_id" ref="model_hms_patient" />
+            <field name="state">code</field>
+            <field name="code">
+                if records:
+                action = {
+                'type': 'ir.actions.act_window',
+                'res_model': 'hms.patient.transfer.wizard',
+                'view_mode': 'form',
+                'target': 'new',
+                'context': {
+                'default_patient_ids': records.ids
+                }
+                }
+            </field>
+        </record>
+        <record id="hms_department_form_view_inherit" model="ir.ui.view">
+            <field name="name">hms.department.form.inherit</field>
+            <field name="model">hms.department</field>
+            <field name="inherit_id" ref="hms.department_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="inside">
+                    <header class="btn-group pull-right container-fluid">
+                        <button name="open_transfer_wizard"
+                            string="Transfer Patients"
+                            type="object"
+                            class="btn-primary" />
+                    </header>
+                </xpath>
+            </field>
+        </record>
+        <menuitem id="menu_patient_transfer_wizard"
+            name="Transfer Patients"
+            parent="hms.menu_root"
+            action="action_patient_transfer_wizard" />
+    </data>
+</odoo>

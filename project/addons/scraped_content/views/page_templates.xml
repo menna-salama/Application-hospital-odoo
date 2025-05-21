@@ -1,0 +1,32 @@
+<odoo>
+    <template id="page_list_template" name="Page List">
+        <t t-call="website.layout">
+            <div class="container">
+                <h1>Pages</h1>
+                <ul>
+                    <t t-foreach="pages" t-as="page">
+                        <li>
+                            <a t-att-href="page.website_url">
+                                <t t-esc="page.title" />
+                            </a>
+                        </li>
+                    </t>
+                </ul>
+            </div>
+        </t>
+    </template>
+
+    <template id="page_detail_template" name="Page Detail">
+        <t t-call="website.layout">
+            <div class="container">
+                <h1>
+                    <t t-esc="page.title" />
+                </h1>
+                <div t-raw="page.content" />
+                <p>
+                    <a t-att-href="page.source_url" target="_blank">Source</a>
+                </p>
+            </div>
+        </t>
+    </template>
+</odoo>
